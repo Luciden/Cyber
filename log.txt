@@ -1,0 +1,17 @@
+2013-05-30: I think this was the day I got the concrete (first) idea and
+started to work some stuff out, using the bit of code I had from another idea.
+
+2013-06-01: Started working on the computers, had basic functionality in order,
+but some stuff didn't work yet, was just working on input.
+
+2013-06-02:
+* Input working with nice word wrap.
+* Implementing basic commands for Simple OS.
+* Had some ideas last night for how the puzzles will work (how information is
+gained) and on how interacting with people works.
+* Started on the conversation system.
+
+2013-06-03:
+* Work some more on displaying the conversation system. (Temporary Interace probably)
+* Finished basic Conversation loop and Query translation.
+* 

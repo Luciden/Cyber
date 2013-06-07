@@ -1,0 +1,387 @@
+
+
+
+You make a living through cybercrime and social engineering.
+You go to banks and businesses and break into their computers to transfer money
+or earn money in other ways.
+
+Goal:
+
+  To survive/provide money and perhaps take over cyberspace.
+
+Game Mechanics:
+
+  - cracking computers (gaining access to a company's resources through
+    computers)
+  - lockpicking (opening desks and doors)
+  - social engineering (persuading staff)
+  
+Summary:
+
+  In essence, the game is a puzzle game.
+  It is the player's job to figure out how to gain particular pieces of
+  information for assignments.
+  The skills and techniques learned and unlocked during these assignments can
+  then be used in 'free-form', i.e. in similar situations without the
+  assignment.
+  
+  So: the game is based around assignments which get progressively harder.
+  The assignments differ in type and difficulty, i.e. amount of information
+  required, resources needed, player knowledge needed, building layout etc.
+
+Gaining Information:
+
+  To gain information (solve a puzzle) the player has to perform the following
+  steps:
+   - scout the area and investigate: where are the weak spots?
+   - create an opportunity to infiltrate: this can be direct by waiting or
+     indirect, for example by hiring help to create a disturbance.
+   - infiltrate and find the information: this is dependent on the assignment,
+     but it could mean to crack a computer.
+   - collect reward (and optionally deliver information)
+
+Assignments:
+
+  Some examples:
+    - find out a particular person's information: phone number, address, etc.
+    - plant evidence
+    - retrieve source code
+    - find out marketing plans
+  
+  An Assignment is a combination of the following things:
+   - a list of conditions that should be met so that it is completed
+   - a list of conditions that, when met, signify failure
+   - a reward
+  
+  This means that there should be checks available to calculate success/failure.
+  ~ example checks:
+   - person's state
+   - a bank account's balance
+   - a file's location(/absence)
+   
+Information:
+
+  There are information sources which provide either hints or necessary
+  information to progress in an assignment.
+  For example, there may be a website which contains a name and other information
+  on a CEO or other important person in a company.
+  This information can then be used to (try to) gain access by SEing as that
+  person.
+  
+Conversation:
+
+  A conversation with a person is the interchange of statements by one person
+  (the player) and the other.
+  In these interchanges, certain words or sentences may _trigger_ certain 
+  responses, such as obtaining information (giving a password) or triggering 
+  an action (sounding alarm).
+  
+  multiple types (which work roughly the same):
+   - in person (at helpdesk, in hallway, et cetera)
+   - on phone
+   - through chat
+   - through mail
+  
+  Some conversations will have some common format.
+  For example, talking with the office secretary will go along the lines of:
+   - This is X
+   * Hello, this is Y (thought up name)
+   - What can I help you with today?
+   * I forgot my keycard to the parking lot, can you let me in?
+   - Sure, hold on a second ...
+   [door opens]
+   - There you go, have a nice day.
+   * Thanks X, you too.
+  
+  Thus in conversations there is:
+   - Information (names)
+   - Intentions (want to open door)
+   - Actions (X opens the door)
+   - Reasons (forgot keycard)
+   - Gullability/Trust (X doesn't question Y)
+  
+  Conversing:
+  
+    Conversing is done in the following steps:
+     1) Engage an NPC (or be engaged by an NPC)
+     2) Create a sentence
+     3) Wait for the response
+     4) Repeat from 2 until sufficient
+     5) Disengage NPC
+     
+    Aesthetics:
+    
+      During conversation, words will be displayed one by one while they are
+      'spoken' by the sound generation engine.
+  
+  Sentences:
+  
+    Every sentence has an intention, not every sentence has facts in them.
+    
+    Informal categorisation:
+     - Intention & no Facts: Request
+     - No apparent Intention & Facts: Statements
+     - No apparent Intention & No Facts: babbling (strange sentence or misparse)
+   
+   Parsing:
+    
+    I need a sort of parametrised grammar to check for requests.
+    For example:
+     - Could you open the front door?
+     - Can you open the front door?
+     - The front door is closed, can you open it?
+    Should all result in the same query.
+  
+  Patterns:
+  
+    (For now) queries will be translated through a form of 'high-level' regular
+    expressions, so to speak.
+    There are:
+     - Specific words ( "Hello", "the", "door" )
+     - Variables ( "<X>", "<H>", "<N>" )
+     - Choice     ( "[morning|evening]", "[he|she]" )
+    
+    These are incorporated in rules, which will then fit the variables (if any)
+    into an Intention structure.
+    
+  
+People:
+  
+  A person 'lives' in the world.
+   - name
+   - occupation
+      - job
+      - company
+   - preferences
+   - home
+   
+  Everyone has some knowledge, which is a collection of facts about the world
+  they experience.
+  Some examples of facts:
+   - The password to my computer is X
+   - My boss's name is Y
+   - I have to listen to my boss (otherwise I will be punished, or another reason)
+  
+  When interacting with people, their knowledge will factor into the
+  conversation.
+
+  
+Home/HQ:
+
+  There is a HQ with your own computer/server/cluster which can be upgraded.
+  From here, some services can be ordered and such.
+  Also, collection of costumes/outfits for camouflage.
+  
+  Map for fast travel.
+
+The World:
+
+  The world is fully connected, there are no teleports.
+  There is only a difference between being outside and inside, between which the
+  player will sort of 'teleport'.
+  
+  Time flows in day/night cycles.
+  Perhaps one hour in real life is one week in-game (without skipping by
+  sleeping).
+  
+Preparation:
+
+  The player can make programs and objects at HQ, to use in tasks.
+  These can be altered after going to a particular place, as to improve upon
+  it to eventually be able to solve a problem.
+  Programs can be brought along on flash drives, or they can be uploaded or sent
+  to a server or service on the internet for later access.
+  
+Threat Level:
+
+  Performing actions will lower or raise the threat level; it is an indicator
+  to see whether people think the player is acting suspicious.
+  
+Terminals:
+
+  Interacting with terminals brings up the terminal, but there are other people
+  so the environment stays visible with the terminal visible somewhere on the
+  screen.
+  
+  Different terminals (in different companies) have different OSs.
+  These require different strategies to tinker with.
+  
+  Terminals can sometimes be used to perform certain tasks, such as opening
+  doors, or changing other states (text on the billboard etc).
+  
+Earning Money:
+
+  To earn money, there are several ways to do it. (multiple solutions)
+   - pickpocket (low)
+   - con (low-medium)
+   - street artist (very low)
+   - gamble (low-high)
+   - transfer and fraud (medium-high)
+   - gathering information (medium-very high)
+   
+  These can all be done for personal gain or through contracts.
+  The player can make choices towards which things to spend time on.
+ 
+  Cracking:
+    
+    This is the act of breaking into computers, either to gain information or
+    to gain money directly (in banks, credit card fraud).
+    
+    There are two variants: cracking a physical terminal or cracking through the
+    internet.
+    
+    Physical:
+      
+      To do this, the player has to go to the company and get to the terminal.
+      There, one can try to log in or simply start working through the computer/
+      network directly and find information.
+      Programs can be used, data can be downloaded and put on flashdrives,
+      data can be planted, decisions can be made (for example, by sending a mail
+      reply with consent) and similar things.
+      
+      Risks are: getting caught, forgetting to cover tracks
+      Difficulties: infiltrating
+    
+    From HQ:
+      
+      Some things can be controlled from HQ, for example when a backdoor was
+      planted somewhere.
+      
+      Risks: being traced to HQ
+      Difficulties: cannot get all information to access systems
+  
+  Social Engineering:
+  
+    People are the weakest links in digital systems.
+    Sometimes it's easiest to gain a password by simply asking.
+    
+    SE is the act of speaking with people and convincing them to give
+    information or perform tasks in some way.
+    Goals include: gaining password, getting someone to open a door,
+    distracting someone, et cetera.
+  
+  Street Artist:
+  
+    More of a time waster: earn money by performing on the streets or begging.
+    This can be useful when the player is really broke (for example in the
+    beginning).
+    
+People:
+
+  Some people are more gullable than others.
+  Depending on the difficulty, they will have a higher chance to spot you.
+
+Upgrades:
+
+  Buy:
+   - new equipment
+   - manuals for operating systems
+   - manuals for techniques
+
+Difficulty:
+
+  A company's security is dependent on the following factors:
+   - number of guards
+   - guards' skill and other attributes
+   - staff gullability
+   - staff security protocol
+   - operating system used
+   - company size
+  
+  For example, some staff members will leave their password on a note in their
+  desk.
+  
+Beginning:
+
+  Start by reading a book by "Melvin Kidnick" on the basics of social
+  engineering and the use of weak passwords.
+  The player is broke, jobless and needs money.
+  The first task is to go to the local small company to try to get some money.
+  
+  Then the game continues by providing ever growing companies and goals.
+  Later, the player needs to crack ciphers and such which requires a larger
+  computer at home and such.
+  
+  Maybe an arch with the federal office or such things.
+
+Situations:
+
+  In a financial company:
+    Player goes inside, acting as if he works there.
+    Waits for someone to leave for the bathroom or another reason, then goes to
+    the terminal.
+    Searches for an order or similar with a wanted item and changes the address.
+    Leaves, then picks up the package.
+
+  In a Store:
+    
+Scripts:
+
+  The player can create (or copy) scripts that can execute on a computer.
+  For now, they will use one high-level language.
+  
+  Functionality includes:
+   - searching a single file for text (regex?)
+   - 
+
+Maps:
+
+  The world is divided into maps.
+  A map is a rectangular grid on which objects are placed.
+  Maps can be combined (linked together) to create larger maps.
+  
+  There is a special value of tile which means that position does not exist.
+  This can either mean that this is filled by another (overlaid/attached) map,
+  or that the player should never be there.
+  
+  
+  Building:
+
+    A building is a collection of floor that are linked together through stairs
+    or other means.
+
+Roadmap:
+
+x 1) Basic moving functionality
+x   a) Walking
+x   b) Interaction
+  2) Moving from outside to inside
+    a) Storing/Loading a level
+    b) Transitioning from one map to another (outside to/from inside)
+      1) DoorPortal: moving from a position on one map to a position on a (other) map
+  3) Basic assignments
+    a) Basic Task
+      1) Download a file
+      2) Place a file on a particular computer
+      3) Get a paritcular item (physical document/key)
+    b) Reward
+  8) Basic world changes
+    a) Doors
+    b) Pushing objects
+  9) Basic lockpicking
+    a) Start picking a locked door
+  4) Basic computer
+x   a) Displaying text on screen and being able to exit
+x   b) Receiving input while activated
+x   c) CLI with basic commands
+x   d) Basic filesystem with directory changing and files
+    e) Opening files, Editing, Saving
+    f) Controlling devices/doors with computers
+      1) Create interface between computers and devices
+      2) Make scripting language that is used in-game
+  5) Basic Person (Without movement)
+    a) 
+  6) Basic Conversation
+x   a) Start a Conversation
+x   b) Player says something to NPC
+x   c) NPC generates response
+    d) Convert sentence to Query
+    e) Check Query with NPC knowledge/etc
+  7) Basic Networks/Internet (used for transfering files between computers)
+
+ xx) File System Generator (Grammar), Company Specific
+ xx) Assignment Generator (Grammar)
+
+_Optional_
+
+ xx) Speech Generation Engine (just sounds, not real speech)
