@@ -44,8 +44,11 @@ function World:render()
         end
     end
     
+    -- Render current map's objects
     for _, object in pairs(self.objects) do
-        object:render()
+        if map == object.map then
+            object:render()
+        end
     end
     
     if self.terminal then
@@ -97,7 +100,7 @@ end
 
 function World:interact( x, y )
     for _, object in pairs(self.objects) do
-        if object.x == x and object.y == y then
+        if object.map == player.map and object.x == x and object.y == y then
             action = object.interaction
             if action == interaction.terminal then
                 -- Display that particular terminal
