@@ -24,7 +24,7 @@ Conversation = {
 --
 function Conversation.new( person )
     return {
-        npc = person.person,
+        npc = person,
         history = {},
         sentence = "",
         

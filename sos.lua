@@ -11,6 +11,7 @@ SOS = {
 }
 
 function SOS.init( comp )
+    print( "Initialising SOS" )
     comp.prompt = ">"
     comp.command = ""
     comp.history = {}

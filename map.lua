@@ -91,7 +91,9 @@ function Map.new( id, width, height, tiles, portals )
         portals = portals,    
     
         tile = Map.tile,
-        addPortal = Map.addPortal
+        addPortal = Map.addPortal,
+        
+        isSolid = Map.isSolid
     }
 end
 
@@ -102,4 +104,19 @@ end
 
 function Map:addPortal( portal )
     table.insert( self.portals, portal )
+end
+
+function Map:isSolid( x, y )
+    -- Check if it is within bounds (everything out of bounds is considered as solid)
+    if x < 1 or y < 1 or x > self.width or y > self.height then
+        return true
+    end
+    
+    -- First check if it is a wall or similar in the map
+    local tile = self:tile( x, y )
+    if tile.solid then
+        return true
+    end
+    
+    return false
 end

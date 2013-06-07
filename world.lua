@@ -12,7 +12,9 @@ function World:update()
 end
 
 function World:render()
-    if not self.map then
+    local map = player.map
+    
+    if not map then
         print( "No map selected to render!" )
         return
     end
@@ -22,22 +24,22 @@ function World:render()
         -- render outline
         love.graphics.setColor( 128, 128, 128 )
         love.graphics.rectangle( "line", self.tileSize, self.tileSize,
-                                 self.map.width * self.tileSize, self.map.height * self.tileSize )
+                                 map.width * self.tileSize, map.height * self.tileSize )
         -- render grid lines
-        for i = 1, self.map.width do
+        for i = 1, map.width do
             local x = self.tileSize + i * self.tileSize
-            love.graphics.line( x, self.tileSize, x, self.tileSize + self.map.height * self.tileSize )
+            love.graphics.line( x, self.tileSize, x, self.tileSize + map.height * self.tileSize )
         end
-        for i = 1, self.map.height do
+        for i = 1, map.height do
             local y = self.tileSize + i * self.tileSize
-            love.graphics.line( self.tileSize, y, self.tileSize + self.map.width * self.tileSize, y )
+            love.graphics.line( self.tileSize, y, self.tileSize + map.width * self.tileSize, y )
         end
     end
     
     -- Render the tiles
-    for i = 1, self.map.width do
-        for j = 1, self.map.height do
-            local tile = self.map:tile( i, j )
+    for i = 1, map.width do
+        for j = 1, map.height do
+            local tile = map:tile( i, j )
             tile.render( i, j )
         end
     end
@@ -60,7 +62,7 @@ function World:render()
         love.graphics.rectangle( "fill", x - b, y - b, w + 2 * b, h + 2 * b )
         
         -- Draw the terminal itself
-        self.terminal.computer.cOS.render( self.terminal.computer, x, y, w, h )
+        self.terminal.cOS.render( self.terminal, x, y, w, h )
     end
     
     if self.conversation then
@@ -78,22 +80,15 @@ function World:render()
     end
 end
 
-function World:isSolid( x, y )
-    -- Check if it is within bounds (everything out of bounds is considered as solid)
-    if x < 1 or y < 1 or x > self.map.width or y > self.map.height then
-        return true
-    end
-    
-    -- First check if it is a wall or similar in the map
-    local tile = self.map:tile( x, y )
-    if tile.solid then
-        return true
-    end
-    
+function World:isSolidObject( map, x, y )
     -- Check if there is a solid object there
     for _, object in pairs(self.objects) do
-        if object.gridX == x and object.gridY == y then
-            return true
+        print( map, object.map )
+        if object.map == map and object.x == x and object.y == y then
+            -- Calculate from footprint (TODO)
+            if object.solid then
+                return true
+            end
         end
     end
     
@@ -102,7 +97,7 @@ end
 
 function World:interact( x, y )
     for _, object in pairs(self.objects) do
-        if object.gridX == x and object.gridY == y then
+        if object.x == x and object.y == y then
             action = object.interaction
             if action == interaction.terminal then
                 -- Display that particular terminal
@@ -114,26 +109,6 @@ function World:interact( x, y )
             return true
         end
     end
-end
-
----
--- @param l location
--- @param d direction
-function World:activatePortal( d )
-    print( player.gridX, player.gridY )
-    for _, p in ipairs( self.map.portals ) do
-        if p.x == player.gridX and p.y == player.gridY and p.direction == d then
-            print( "teleporting" )
-            -- Move the player to the specified location
-            world.map = p.destination
-            player.gridX = p.dx
-            player.gridY = p.dy
-            
-            return true
-        end
-    end
-    
-    return false
 end
 
 function World.facingPos( x, y, d )

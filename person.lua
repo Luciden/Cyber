@@ -6,13 +6,20 @@ Person = {
     knowledge = nil
 }
 
-function Person.new( name )
-    return {
-        name = name,
-        knowledge = {},
-        
-        processQuery = Person.processQuery
-    }
+function Person.new( map, x, y, dir, name )
+    local person = Object.new( map, x, y, nil, dir )
+    
+    person.name = name
+    
+    person.knowledge = {}
+    
+    person.interaction = interaction.conversation
+    
+    person.render = Person.render
+    person.processQuery = Person.processQuery
+    
+    
+    return person
 end
 
 --- In conversations, this is used to create a response.
@@ -37,8 +44,8 @@ function Person:checkFact( f )
 end
 
 function Person.render( object )
-    local x = object.gridX * world.tileSize
-    local y = (object.gridY - 1) * world.tileSize
+    local x = object.x * world.tileSize
+    local y = (object.y - 1) * world.tileSize
     
     love.graphics.setColor( 64, 64, 64 )
     love.graphics.rectangle( "fill", x, y, 32, 64 )

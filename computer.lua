@@ -92,25 +92,28 @@ function File.new( name )
     }
 end
 
-function Computer.new( system, fs )
+function Computer.new( map, x, y, dir, system, fs )
     fs = fs or Directory.new()
+    local pc = Object.new( map, x, y, 0, dir )
     
-    pc = {
-        files = fs, 
-        cOS = system,
-        
-        directory = fs,
-        
-        inputCharacter = Computer.inputCharacter,
-        pwd = Computer.pwd,
-        mkdir = Computer.mkdir,
-        cd = Computer.cd,
-        ls = Computer.ls,
-        touch = Computer.touch,
-        
-        isDir = Computer.isDir
-    }
+    pc.interaction = interaction.terminal
+    pc.render = Computer.render
     
+    pc.files = fs
+    pc.cOS = system
+    
+    pc.directory = fs
+    
+    pc.inputCharacter = Computer.inputCharacter
+    pc.pwd = Computer.pwd
+    pc.mkdir = Computer.mkdir
+    pc.cd = Computer.cd
+    pc.ls = Computer.ls
+    pc.touch = Computer.touch
+    
+    pc.isDir = Computer.isDir
+    
+    -- Initialise the OS
     pc.cOS.init( pc )
     
     return pc
@@ -215,4 +218,14 @@ end
 
 function Computer:touch( fname )
     return Computer.createFile( self, fname:upper() )
+end
+
+function Computer:render()
+    local x = self.x * world.tileSize
+    local y = self.y * world.tileSize
+    local w = world.tileSize
+    local h = world.tileSize
+    
+    love.graphics.setColor( 0, 0, 196 )
+    love.graphics.rectangle( "fill", x, y, w, h )
 end

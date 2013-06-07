@@ -17,3 +17,5 @@ gained) and on how interacting with people works.
 
 2013-06-07:
 * Creating an actual Map system.
+* Created the basic teleportation structuring.
+* Abstracting away Objects.

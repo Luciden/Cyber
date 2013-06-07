@@ -1,5 +1,6 @@
 require("utils")
 
+require("object")
 require("map")
 require("world")
 require("player")
@@ -13,6 +14,7 @@ DOWN  = "down"
 UP    = "up"
 LEFT  = "left"
 RIGHT = "right"
+NONE  = "none"
 
 interaction = {
     terminal = 0,
@@ -28,9 +30,6 @@ function love.load()
         
         maps = {},
         
-        -- the active map
-        map = nil,
-        
         objects = {},
         
         computer = {},
@@ -43,35 +42,11 @@ function love.load()
         render = World.render,
         isSolid = World.isSolid,
         interact = World.interact,
-        activatePortal = World.activatePortal
+        activatePortal = World.activatePortal,
+        isSolidObject = World.isSolidObject
     }
     
-    player = {
-        gridX = nil,
-        gridY = nil,
-        offX  = 0,
-        offY  = 0,
-        moving = false,
-        direction = DOWN,
-        speed = 2,
-        
-        money = 0,
-        inventory = {},
-        
-        footprint = { { 0, 0 } },
-        
-        render = Player.render,
-        move   = Player.move,
-        update = Player.update,
-        
-        receiveMoney = function( self, amount )
-            money = money + amount
-        end,
-        
-        receiveItem = function( self, item )
-            table.insert( self.inventory, item )
-        end
-    }
+    player = Player.new()
     
     mapOffice = Map.new( 1, 10, 10, {
             { Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall },
@@ -127,52 +102,35 @@ function love.load()
     })
     
     -- Add an empty computer
-    table.insert( world.objects, {
-        gridX = 4,
-        gridY = 2,
-        direction = LEFT,
-        interaction = interaction.terminal,
-        
-        solid = true,
-        
-        render = function( self )
-            local x = self.gridX * world.tileSize
-            local y = self.gridY * world.tileSize
-            local w = world.tileSize
-            local h = world.tileSize
-            
-            love.graphics.setColor( 0, 0, 196 )
-            love.graphics.rectangle( "fill", x, y, w, h )
-        end,
-        
-        computer = Computer.new( SOS )
-    })
+    table.insert( world.objects, Computer.new( mapOffice, 4, 2, LEFT, SOS ) )
     
     -- Add a Person with whom to converse with.
-    table.insert( world.objects, {
-        gridX = 2,
-        gridY = 3,
-        direction = UP,
-        interaction = interaction.conversation,
-        
-        solid = true,
-        
-        render = Person.render,
-        
-        person = Person.new( "Alice" )
-    })
+    table.insert( world.objects, Person.new( mapOffice, 2, 3, UP, "Alice" ) )
     
     for _, m in ipairs( world.maps ) do
         print( m.id )
     end
     
-    world.map = world.maps[1]
-    player.gridX = 3
-    player.gridY = 2
+    player:setLocation( 3, 2, mapOffice )
 end
 
 function love.update(dt)
     world:update(dt)
+    
+    -- Handle player input
+    if not (world.terminal or world.conversation) then
+        -- First check if we're moving
+        if love.keyboard.isDown("down") then
+            player:move( DOWN )
+        elseif love.keyboard.isDown("up") then
+            player:move( UP )
+        elseif love.keyboard.isDown("left") then
+            player:move( LEFT )
+        elseif love.keyboard.isDown("right") then
+            player:move( RIGHT )
+        end
+    end
+    
     player:update(dt)
 end
 
@@ -187,7 +145,7 @@ function love.keypressed( key )
         if key == "escape" then
             world.terminal = nil
         else
-            world.terminal.computer:inputCharacter( key )
+            world.terminal:inputCharacter( key )
         end
     elseif world.conversation then
         if key == "escape" then
@@ -200,7 +158,7 @@ function love.keypressed( key )
     else
         if key == " " then
             -- check interaction
-            ix, iy = World.facingPos( player.gridX, player.gridY, player.direction )
+            ix, iy = World.facingPos( player.x, player.y, player.direction )
 
             world:interact( ix, iy )
         elseif key == "escape" then
