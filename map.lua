@@ -11,7 +11,7 @@ Tile = {
         solid = true,
         
         render = function( x, y )
-            love.graphics.setColor( 255, 255, 255 )
+            love.graphics.setColor( 32, 96, 32 )
             love.graphics.rectangle( "fill", x * world.tileSize, y * world.tileSize,
                                              world.tileSize, world.tileSize )
             end
@@ -34,7 +34,7 @@ end
 
 --- Provides means to go inside/outside/change locations
 Portal = {
-    -- id from the map that this leads to
+    -- the map that this leads to
     destination = nil,
     
     -- Coordinates in the current map on which the portal is located
@@ -62,7 +62,7 @@ function Portal.new( here, dest, there, dir )
         dx = there.x,
         dy = there.y,
         
-        directions = dir
+        direction = dir
     }
 end
 
@@ -90,11 +90,16 @@ function Map.new( id, width, height, tiles, portals )
         
         portals = portals,    
     
-        tile = Map.tile
+        tile = Map.tile,
+        addPortal = Map.addPortal
     }
 end
 
 --- See which tile is at the location relative to origin
 function Map:tile( x, y )
     return self.tiles[x][y]
+end
+
+function Map:addPortal( portal )
+    table.insert( self.portals, portal )
 end

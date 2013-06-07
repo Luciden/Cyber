@@ -42,7 +42,8 @@ function love.load()
         update = World.update,
         render = World.render,
         isSolid = World.isSolid,
-        interact = World.interact
+        interact = World.interact,
+        activatePortal = World.activatePortal
     }
     
     player = {
@@ -72,28 +73,36 @@ function love.load()
         end
     }
     
-    -- Add the test office map
-    table.insert( world.maps, Map.new( 2, 10, 10, {
+    mapOffice = Map.new( 1, 10, 10, {
             { Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
+            { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
-            { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
-            { Tile.wall, Tile.wall, Tile.wall, Tile.floor, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall }
-        }, { Portal.new( { x = 4, y = 10 }, 2, { x = 2, y = 1 }, DOWN ) } )
-    )
+            { Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall }
+        }, {  } )
+    
+    mapStreet = Map.new( 2, 3, 3, {
+            { Tile.wall, Tile.floor, Tile.floor },
+            { Tile.floor, Tile.floor, Tile.floor },
+            { Tile.wall, Tile.floor, Tile.floor }
+        }, { Portal.new( { x = 2, y = 1 }, mapOffice, { x = 4, y = 10 }, UP ) } )
+        
+    mapOffice:addPortal( Portal.new( { x = 4, y = 10 }, mapStreet, { x = 2, y = 1 }, DOWN ) )
+    
+    for _, portal in ipairs( mapOffice.portals ) do
+        print( portal.x, portal.y, portal.direction )
+    end
+    
+    -- Add the test office map
+    table.insert( world.maps, mapOffice )
     
     -- Add a small outside map
-    table.insert( world.maps, Map.new( 2, 3, 3, {
-            { Tile.wall, Tile.floor, Tile.wall },
-            { Tile.floor, Tile.floor, Tile.floor },
-            { Tile.floor, Tile.floor, Tile.floor }
-        }, { Portal.new( { x = 2, y = 1 }, 1, { x = 4, y = 10 }, {UP } ) } )
-    )
+    table.insert( world.maps, mapStreet )
     
     table.insert( world.assignments, {
         wasThere = false,
@@ -119,8 +128,8 @@ function love.load()
     
     -- Add an empty computer
     table.insert( world.objects, {
-        gridX = 2,
-        gridY = 1,
+        gridX = 4,
+        gridY = 2,
         direction = LEFT,
         interaction = interaction.terminal,
         
@@ -141,7 +150,7 @@ function love.load()
     
     -- Add a Person with whom to converse with.
     table.insert( world.objects, {
-        gridX = 1,
+        gridX = 2,
         gridY = 3,
         direction = UP,
         interaction = interaction.conversation,
@@ -160,28 +169,6 @@ function love.load()
     world.map = world.maps[1]
     player.gridX = 3
     player.gridY = 2
-    
-    --[[
-    table.insert( world.objects, {
-        gridX = 1,
-        gridY = 2,
-        direction = UP,
-        interaction = interaction.terminal,
-        
-        solid = true,
-        
-        render = function( self )
-            local x = self.gridX * world.gridSize
-            local y = self.gridY * world.gridSize
-            local w = world.gridSize
-            local h = world.gridSize
-            
-            love.graphics.setColor( 196, 0, 0 )
-            love.graphics.rectangle( "fill", x, y, w, h )
-        end,
-        
-        computer = Computer.new( SOS )
-    })--]]
 end
 
 function love.update(dt)

@@ -19,14 +19,17 @@ function Player:move( dir )
     if not self.moving then
         self.direction = dir
         
-        -- Check Collisions
-        if   (dir == LEFT and self.gridX > 1 and not world:isSolid( self.gridX - 1, self.gridY))
-          or (dir == RIGHT and self.gridX < 8 and not world:isSolid( self.gridX + 1, self.gridY))
-          or (dir == UP and self.gridY > 1 and not world:isSolid( self.gridX, self.gridY - 1))
-          or (dir == DOWN and self.gridY < 8 and not world:isSolid( self.gridX, self.gridY + 1)) then
-            self.moving = true
-        else
-            self.moving = false
+        -- Check portal, if it activates then it is taken care of, otherwise walk
+        if not world:activatePortal( dir ) then
+            -- Check Collisions
+            if   (dir == LEFT and not world:isSolid( self.gridX - 1, self.gridY))
+              or (dir == RIGHT and not world:isSolid( self.gridX + 1, self.gridY))
+              or (dir == UP and not world:isSolid( self.gridX, self.gridY - 1))
+              or (dir == DOWN and not world:isSolid( self.gridX, self.gridY + 1)) then
+                self.moving = true
+            else
+                self.moving = false
+            end
         end
     end
 end

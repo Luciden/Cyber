@@ -79,6 +79,18 @@ function World:render()
 end
 
 function World:isSolid( x, y )
+    -- Check if it is within bounds (everything out of bounds is considered as solid)
+    if x < 1 or y < 1 or x > self.map.width or y > self.map.height then
+        return true
+    end
+    
+    -- First check if it is a wall or similar in the map
+    local tile = self.map:tile( x, y )
+    if tile.solid then
+        return true
+    end
+    
+    -- Check if there is a solid object there
     for _, object in pairs(self.objects) do
         if object.gridX == x and object.gridY == y then
             return true
@@ -102,6 +114,26 @@ function World:interact( x, y )
             return true
         end
     end
+end
+
+---
+-- @param l location
+-- @param d direction
+function World:activatePortal( d )
+    print( player.gridX, player.gridY )
+    for _, p in ipairs( self.map.portals ) do
+        if p.x == player.gridX and p.y == player.gridY and p.direction == d then
+            print( "teleporting" )
+            -- Move the player to the specified location
+            world.map = p.destination
+            player.gridX = p.dx
+            player.gridY = p.dy
+            
+            return true
+        end
+    end
+    
+    return false
 end
 
 function World.facingPos( x, y, d )
