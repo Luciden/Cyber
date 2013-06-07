@@ -14,4 +14,6 @@ gained) and on how interacting with people works.
 2013-06-03:
 * Work some more on displaying the conversation system. (Temporary Interace probably)
 * Finished basic Conversation loop and Query translation.
-* 
+
+2013-06-07:
+* Creating an actual Map system.

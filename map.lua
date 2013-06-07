@@ -8,11 +8,23 @@ Tile = {
     tile = nil,
     
     wall = {
-        solid = true
+        solid = true,
+        
+        render = function( x, y )
+            love.graphics.setColor( 255, 255, 255 )
+            love.graphics.rectangle( "fill", x * world.tileSize, y * world.tileSize,
+                                             world.tileSize, world.tileSize )
+            end
     },
     
     floor = {
-        solid = false
+        solid = false,
+        
+        render = function( x, y )
+            love.graphics.setColor( 128, 64, 0 )
+            love.graphics.rectangle( "fill", x * world.tileSize, y * world.tileSize,
+                                             world.tileSize, world.tileSize )
+            end
     }
 }
 
@@ -25,22 +37,32 @@ Portal = {
     -- id from the map that this leads to
     destination = nil,
     
-    -- Coordinates that this teleports to
+    -- Coordinates in the current map on which the portal is located
     x = nil,
-    y = nil
+    y = nil,
+    
+    -- Coordinates in destination map to where this teleports
+    dx = nil,
+    dy = nil,
+    
+    -- The moving direction that activates this portal
+    directions = nil
 }
 
 ---
 -- @param dest destination map
 -- @param l coordinates in the map
-function Portal.new( dest, l, dirs )
+function Portal.new( here, dest, there, dir )
     return {
         destination = dest,
         
-        x = l.x,
-        y = l.y,
+        x = here.x,
+        y = here.y,
         
-        directions = dirs
+        dx = there.x,
+        dy = there.y,
+        
+        directions = dir
     }
 end
 
@@ -53,10 +75,26 @@ Map = {
     tiles = nil,
     
     -- All objects associated with this map with location relative to origin
-    objects = nil
+    objects = nil,
+    
+    portals = nil
 }
+
+function Map.new( id, width, height, tiles, portals )
+    return {
+        id = id,
+        width = width,
+        height = height,
+        
+        tiles = tiles,
+        
+        portals = portals,    
+    
+        tile = Map.tile
+    }
+end
 
 --- See which tile is at the location relative to origin
 function Map:tile( x, y )
-    return tiles[x][y]
+    return self.tiles[x][y]
 end

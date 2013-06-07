@@ -13,21 +13,33 @@ end
 
 function World:render()
     if not self.map then
+        print( "No map selected to render!" )
         return
     end
 
-    -- render outline
-    love.graphics.setColor( 128, 128, 128 )
-    love.graphics.rectangle( "line", self.tileSize, self.tileSize,
-                             self.map.width * self.tileSize, self.map.height * self.tileSize )
-    -- render grid lines
-    for i = 1, self.map.width do
-        local x = self.tileSize + i * self.tileSize
-        love.graphics.line( x, self.tileSize, x, self.tileSize + self.map.height * self.tileSize )
+    -- Render gridlines
+    if self.debug then
+        -- render outline
+        love.graphics.setColor( 128, 128, 128 )
+        love.graphics.rectangle( "line", self.tileSize, self.tileSize,
+                                 self.map.width * self.tileSize, self.map.height * self.tileSize )
+        -- render grid lines
+        for i = 1, self.map.width do
+            local x = self.tileSize + i * self.tileSize
+            love.graphics.line( x, self.tileSize, x, self.tileSize + self.map.height * self.tileSize )
+        end
+        for i = 1, self.map.height do
+            local y = self.tileSize + i * self.tileSize
+            love.graphics.line( self.tileSize, y, self.tileSize + self.map.width * self.tileSize, y )
+        end
     end
-    for i = 1, self.map.height do
-        local y = self.tileSize + i * self.tileSize
-        love.graphics.line( self.tileSize, y, self.tileSize + self.map.width * self.tileSize, y )
+    
+    -- Render the tiles
+    for i = 1, self.map.width do
+        for j = 1, self.map.height do
+            local tile = self.map:tile( i, j )
+            tile.render( i, j )
+        end
     end
     
     for _, object in pairs(self.objects) do

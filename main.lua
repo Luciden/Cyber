@@ -73,14 +73,8 @@ function love.load()
     }
     
     -- Add the test office map
-    table.insert( world.maps, {
-        id = 1,
-        
-        width = 10,
-        height = 10,
-        
-        tiles = 
-          { { Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall },
+    table.insert( world.maps, Map.new( 2, 10, 10, {
+            { Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
@@ -89,21 +83,17 @@ function love.load()
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
             { Tile.wall, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.floor, Tile.wall },
-            { Tile.wall, Tile.wall, Tile.wall, Portal.new( 2, { x = 2, y = 1 }, { DOWN } ), Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall } }
-    })
+            { Tile.wall, Tile.wall, Tile.wall, Tile.floor, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall, Tile.wall }
+        }, { Portal.new( { x = 4, y = 10 }, 2, { x = 2, y = 1 }, DOWN ) } )
+    )
     
     -- Add a small outside map
-    table.insert( world.maps, {
-        id = 2,
-        
-        width = 3,
-        height = 3,
-        
-        tiles =
-          { { Tile.wall, Portal.new( 1, { x = 4, y = 10 }, { UP } ), Tile.wall },
+    table.insert( world.maps, Map.new( 2, 3, 3, {
+            { Tile.wall, Tile.floor, Tile.wall },
             { Tile.floor, Tile.floor, Tile.floor },
-            { Tile.floor, Tile.floor, Tile.floor } }
-    })
+            { Tile.floor, Tile.floor, Tile.floor }
+        }, { Portal.new( { x = 2, y = 1 }, 1, { x = 4, y = 10 }, {UP } ) } )
+    )
     
     table.insert( world.assignments, {
         wasThere = false,
