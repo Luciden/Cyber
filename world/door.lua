@@ -15,6 +15,8 @@ function Door.new( map, x, y, dir )
     
     door.interaction = interaction.open
     
+    door.isDoor = true
+    
     door.render = Door.render
     
     door.isOpen = Door.isOpen

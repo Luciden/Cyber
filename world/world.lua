@@ -91,7 +91,7 @@ function World:isSolidObject( map, x, y )
             -- Calculate from footprint (TODO)
             
             -- Check if it is a door and is opened
-            if object:isOpen() then
+            if object.isDoor and object:isOpen() then
                 return false
             end
             
