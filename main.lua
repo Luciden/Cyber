@@ -22,28 +22,7 @@ RIGHT = "right"
 NONE  = "none"
 
 function love.load()
-    world = {
-        tileSize = 32,
-        
-        lastUpdate = love.timer.getTime(),
-        
-        maps = {},
-        
-        objects = {},
-        
-        computer = {},
-        
-        assignments = {},
-        
-        terminal = nil,
-        
-        update = World.update,
-        render = World.render,
-        isSolid = World.isSolid,
-        interact = World.interact,
-        activatePortal = World.activatePortal,
-        isSolidObject = World.isSolidObject
-    }
+    world = World.new()
     
     player = Player.new()
     
@@ -78,27 +57,13 @@ function love.load()
     -- Add a small outside map
     table.insert( world.maps, mapStreet )
     
-    table.insert( world.assignments, {
-        wasThere = false,
-        
-        completed = function( self )
-            return self.wasThere
-        end,
-        
-        failed = function( self )
-            return false
-        end,
-        
-        reward = function( self )
-            player:receiveMoney( 10 )
-        end,
-        
-        update = function( self )
-            if player.gridX == 5 and player.gridY == 5 then
-                self.wasThere = true
-            end
-        end
-    })
+    world:addAssignment( Assignment.new( 
+        { { wasThere = false, completed = function( self ) return self.wasThere end,
+            update = function( self ) if player.map == mapOffice and player.x == 5 and player.y == 5 then self.wasThere = true end end,
+            description = function( self ) return "Go to position (5, 5) in the office" end } },
+          function( self ) player:receiveMoney( 10 ) end,
+          nil, nil )
+    )
     
     -- Add an empty computer
     table.insert( world.objects, Computer.new( mapOffice, 4, 2, LEFT, SOS ) )

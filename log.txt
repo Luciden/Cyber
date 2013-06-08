@@ -20,4 +20,4 @@ gained) and on how interacting with people works.
 * Created the basic teleportation structuring.
 * Abstracting away Objects.
 * Added (simple) doors.
-* Editing files.
+* Add notion of time to the world.

@@ -346,6 +346,8 @@ Perhaps do first:
  - 4.f.1
  - 8
 
+  0) World representation
+    a) Time
 x 1) Basic moving functionality
 x   a) Walking
 x   b) Interaction

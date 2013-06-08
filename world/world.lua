@@ -1,8 +1,38 @@
 World = {}
 
-function World:update()
-    local t = love.timer.getTime()
+function World.new()
+    local world = {}
     
+    world.tileSize = 32
+    
+    world.maps = {}
+    world.objects = {}
+    world.computer = {}
+    world.assignments = {}
+    
+    world.showAssignments = true
+    
+    world.update = World.update
+    world.render = World.render
+    
+    world.addAssignment = World.addAssignment
+    
+    world.isSolid = World.isSolid
+    world.interact = World.interact
+    world.activatePortal = World.activatePortal
+    world.isSolidObject = World.isSolidObject
+    
+    world.lastUpdate = love.timer.getTime()
+    
+    return world
+end
+
+function World:update()
+    -- Update time
+    
+
+    -- Only update the assignments once per larger interval
+    local t = love.timer.getTime()    
     if t > self.lastUpdate + 1 then
         for _, assignment in pairs(self.assignments) do
             assignment:update()
@@ -81,6 +111,26 @@ function World:render()
         love.graphics.rectangle( "fill", x - b, y - b, w + 2 * b, h + 2 * b )
         self.conversation:render( x, y, w, h )
     end
+    
+    if self.showAssignments then
+        local w = 320
+        local h = love.graphics.getHeight()
+        
+        local x = love.graphics.getWidth() - w
+        local y = 0
+        
+        local offset = 0
+        
+        love.graphics.setColor( 32, 16, 0 )
+        love.graphics.rectangle( "fill", x, y, w, h )
+        for i, a in ipairs( self.assignments ) do
+            a:render( x, y + offset, w, h )
+        end
+    end
+end
+
+function World:addAssignment( assignment )
+    table.insert( self.assignments, assignment )
 end
 
 function World:isSolidObject( map, x, y )
