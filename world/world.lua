@@ -89,6 +89,13 @@ function World:isSolidObject( map, x, y )
         print( map, object.map )
         if object.map == map and object.x == x and object.y == y then
             -- Calculate from footprint (TODO)
+            
+            -- Check if it is a door and is opened
+            if object:isOpen() then
+                return false
+            end
+            
+            -- 
             if object.solid then
                 return true
             end
@@ -108,6 +115,16 @@ function World:interact( x, y )
             elseif action == interaction.conversation then
                 -- Start a new conversation
                 self.conversation = Conversation.new( object )
+            elseif action == interaction.open then
+                -- Try to open the door
+                -- if it is locked, open interface with keys/lockpick/lock
+                if not object:isLocked() then
+                    print( "open door" )
+                    object:open()
+                else
+                    -- Start lock opening/picking session
+                    self.lockpick = nil
+                end
             end
             return true
         end

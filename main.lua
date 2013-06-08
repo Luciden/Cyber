@@ -1,10 +1,12 @@
 require("utils")
 
+require("world.constants")
 require("world.object")
 require("world.map")
 require("world.world")
 require("world.player")
 require("world.person")
+require("world.door")
 
 require("conversation.conversation")
 
@@ -18,12 +20,6 @@ UP    = "up"
 LEFT  = "left"
 RIGHT = "right"
 NONE  = "none"
-
-interaction = {
-    terminal = 0,
-    open     = 1,
-    talk     = 2
-}
 
 function love.load()
     world = {
@@ -109,6 +105,9 @@ function love.load()
     
     -- Add a Person with whom to converse with.
     table.insert( world.objects, Person.new( mapOffice, 2, 3, UP, "Alice" ) )
+    
+    -- Add a door  to the office
+    table.insert( world.objects, Door.new( mapOffice, 4, 10, UP ) )
     
     for _, m in ipairs( world.maps ) do
         print( m.id )
