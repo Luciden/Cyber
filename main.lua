@@ -1,14 +1,17 @@
 require("utils")
 
-require("object")
-require("map")
-require("world")
-require("player")
-require("person")
-require("conversation")
-require("computer")
-require("assignment")
-require("sos")
+require("world.object")
+require("world.map")
+require("world.world")
+require("world.player")
+require("world.person")
+
+require("conversation.conversation")
+
+require("computer.sos")
+require("computer.computer")
+
+require("assignment.assignment")
 
 DOWN  = "down"
 UP    = "up"
