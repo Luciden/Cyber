@@ -86,7 +86,6 @@ end
 function World:isSolidObject( map, x, y )
     -- Check if there is a solid object there
     for _, object in pairs(self.objects) do
-        print( map, object.map )
         if object.map == map and object.x == x and object.y == y then
             -- Calculate from footprint (TODO)
             

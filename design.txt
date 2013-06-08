@@ -360,7 +360,7 @@ x     1) DoorPortal: moving from a position on one map to a position on a (other
       3) Get a paritcular item (physical document/key)
     b) Reward
   8) Basic world changes
-    a) Doors
+x   a) Doors
     b) Pushing objects
   9) Basic lockpicking
     a) Start picking a locked door

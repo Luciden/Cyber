@@ -19,3 +19,5 @@ gained) and on how interacting with people works.
 * Creating an actual Map system.
 * Created the basic teleportation structuring.
 * Abstracting away Objects.
+* Added (simple) doors.
+* Editing files.
