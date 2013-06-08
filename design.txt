@@ -342,13 +342,17 @@ Maps:
 
 Roadmap:
 
+Perhaps do first:
+ - 4.f.1
+ - 8
+
 x 1) Basic moving functionality
 x   a) Walking
 x   b) Interaction
-  2) Moving from outside to inside
+x 2) Moving from outside to inside
     a) Storing/Loading a level
-    b) Transitioning from one map to another (outside to/from inside)
-      1) DoorPortal: moving from a position on one map to a position on a (other) map
+x   b) Transitioning from one map to another (outside to/from inside)
+x     1) DoorPortal: moving from a position on one map to a position on a (other) map
   3) Basic assignments
     a) Basic Task
       1) Download a file
@@ -378,7 +382,11 @@ x   c) NPC generates response
     d) Convert sentence to Query
     e) Check Query with NPC knowledge/etc
   7) Basic Networks/Internet (used for transfering files between computers)
+ 10) Basic Graphics
+    a) What kind of artstyle?
+    b) PCG sprites?
 
+ 99) PC Generators
  xx) File System Generator (Grammar), Company Specific
  xx) Assignment Generator (Grammar)
 
